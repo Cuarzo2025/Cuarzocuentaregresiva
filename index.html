@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-key="pageTitle">Mentorías Empresariales - Cuarzo</title>
+    <meta name="description" content="Mentorías personalizadas con proyectos listos para emprendedores. Reserva tu reunión." data-key="metaDescription">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <audio id="backgroundMusic" src="RayKeyz_TRAINING_DAY_Instrumental.mp3" loop></audio>
+
+    <style>
+        /* Base Styles */
+        body {
+            /* Background Image */
+            background-image: url('screenshots/Picture1.jpg');
+            background-size: cover; /* Cover the entire viewport */
+            background-attachment: fixed; /* Keep image fixed when scrolling */
+            background-position: center center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-color: #000; /* Fallback color if image fails to load */
+
+            color: #e0e0e0; /* Brighter text color for contrast - Keep this, it's already a good grayish-white */
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding-top: 60px; /* Space for fixed header/menus */
+            box-sizing: border-box;
+            line-height: 1.6;
+            cursor: default; /* Asegura un cursor predeterminado */
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black for header */
+            height: 250px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            flex-direction: column; /* Allow content to stack vertically */
+        }
+
+        header img {
+            max-height: 150px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px #B0B0B0); /* CAMBIO: Gris plateado para el filtro de sombra del logo */
+            transition: filter 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+            z-index: 1;
+        }
+
+        header h1 {
+            position: relative; /* Changed from absolute to relative to flow with other elements */
+            color: #CCCCCC; /* CAMBIO: Grisáceo para el título del encabezado */
+            font-size: 2.5em;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto 10px auto; /* Added margin-bottom for spacing */
+        }
+
+        /* Dropdown Menus (Common Styles) */
+        .menu-desplegable,
+        .idioma-menu-desplegable {
+            position: fixed;
+            top: 10px;
+            z-index: 1000;
+        }
+
+        .menu-desplegable {
+            right: 10px;
+        }
+
+        .idioma-menu-desplegable {
+            left: 10px;
+        }
+
+        .menu-btn {
+            background-color: #333; /* Darker background for menu buttons */
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .menu-contenido {
+            display: none;
+            position: absolute;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background for menu content */
+            min-width: 200px;
+            border-radius: 5px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5); /* Stronger shadow */
+            white-space: nowrap;
+        }
+
+        .idioma-menu-desplegable .menu-contenido {
+            min-width: 150px;
+            left: 0; /* Align to the left for language menu */
+        }
+
+        .menu-desplegable .menu-contenido {
+            right: 0; /* Align to the right for main menu */
+        }
+
+        .menu-contenido a {
+            color: #f1f1f1; /* Brighter link color */
+            padding: 12px 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .menu-contenido a:hover {
+            background-color: #555; /* Slightly lighter hover background */
+        }
+
+        .menu-desplegable:hover .menu-contenido,
+        .idioma-menu-desplegable:hover .menu-contenido {
+            display: block;
+        }
+
+        /* Images (Cover and Gallery) */
+        .imagen-portada,
+        .galeria img {
+            width: 320px;
+            max-width: 100%;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+            transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.5s ease;
+            filter: grayscale(100%);
+            cursor: pointer;
+            object-fit: contain;
+            height: auto;
+            box-shadow: none;
+        }
+
+        .imagen-portada:hover,
+        .galeria img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #C0C0C0; /* CAMBIO: Plateado al pasar el ratón */
+        }
+
+        /* Fullscreen Image Glow Effect */
+        :fullscreen img,
+        :-webkit-full-screen img,
+        :-moz-full-screen img,
+        :-ms-fullscreen img {
+            box-shadow:
+                0 0 10px #C0C0C0,
+                0 0 20px #C0C0C0,
+                0 0 30px #C0C0C0,
+                0 0 40px #C0C0C0; /* CAMBIO: Plateado para el efecto de brillo en pantalla completa */
+            border-radius: 15px;
+            transition: box-shadow 1.5s ease-in-out infinite alternate;
+            object-fit: contain;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        /* Gallery Section */
+        .galeria {
+            display: none; /* Hidden by default */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 40px 20px;
+        }
+
+        /* Floating Buttons (WhatsApp & Contact) */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366; /* Color de WhatsApp */
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 999; /* Asegura que esté por encima de otros elementos */
+        }
+
+        .floating-button.whatsapp {
+            background-color: #25D366; /* Verde de WhatsApp */
+        }
+
+        .floating-button.whatsapp svg {
+            width: 30px; /* Adjust size of the SVG icon */
+            height: 30px;
+            fill: white; /* Color of the WhatsApp icon */
+        }
+
+        .floating-button.contact {
+            background-color: #007bff; /* Un azul para contacto general, puedes cambiarlo */
+            right: 90px; /* Separación del botón de WhatsApp */
+            font-size: 1.5em; /* Ajuste de tamaño para el ícono de sobre */
+        }
+
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Sections */
+        section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center; /* Center content in sections */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for readability */
+            border-radius: 10px;
+            margin-bottom: 20px; /* Space between sections */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+        }
+
+        section h2, section h3 {
+            margin-bottom: 20px;
+            color: #CCCCCC; /* CAMBIO: Grisáceo para títulos de sección */
+        }
+
+        /* Custom Meeting Box */
+        .meeting-box {
+            background-color: rgba(26, 26, 26, 0.8); /* Slightly more opaque for the meeting box */
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.4); /* CAMBIO: Sutil efecto plateado */
+            animation: pulse-glow 2s infinite alternate; /* Animación de pulsación */
+        }
+
+        .meeting-box h3 {
+            color: #CCCCCC; /* CAMBIO: Grisáceo para el título */
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .meeting-box p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #f1f1f1; /* Asegura que el texto sea claro */
+        }
+
+        .meeting-box a.button {
+            display: inline-block;
+            background-color: #A0A0A0; /* CAMBIO: Gris medio para el botón */
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(192, 192, 192, 0.6); /* CAMBIO: Sombra plateada */
+        }
+
+        .meeting-box a.button:hover {
+            background-color: #808080; /* CAMBIO: Gris más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.8); /* CAMBIO: Sombra plateada más intensa */
+        }
+
+        /* Keyframe animation for pulse glow */
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 10px rgba(192, 192, 192, 0.4); /* CAMBIO: Plateado inicial de la pulsación */
+            }
+            to {
+                box-shadow: 0 0 30px rgba(192, 192, 192, 0.8); /* CAMBIO: Plateado final de la pulsación */
+            }
+        }
+
+        #calendario ul {
+            list-style: none;
+            padding-left: 0;
+            text-align: center;
+        }
+
+        #calendario ul li {
+            margin-bottom: 10px;
+        }
+
+        #calendario ul li a {
+            display: inline-block; /* For better click area */
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #calendario ul li a:hover {
+            background-color: #555;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #aaa;
+            padding: 20px;
+            font-size: 0.9em;
+            border-top: 1px solid #333; /* A subtle separator */
+            margin-top: 40px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black for footer */
+            border-radius: 10px;
+        }
+
+        footer a {
+            color: #CCCCCC; /* CAMBIO: Grisáceo para los enlaces del footer */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Space between icons */
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            font-size: 1.5em; /* Base size for icons */
+            color: #fff; /* Icon color, will be overridden by specific colors */
+            text-decoration: none;
+            display: flex; /* To center the SVG within the link */
+            align-items: center;
+            justify-content: center;
+            width: 40px; /* Size of the circular button */
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Specific social media colors */
+        .social-links a.facebook {
+            background-color: #1877F2; /* Facebook Blue */
+        }
+
+        .social-links a.instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); /* Instagram Gradient */
+        }
+
+        .social-links a.linkedin {
+            background-color: #0A66C2; /* LinkedIn Blue */
+        }
+
+        .social-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .social-links a svg {
+            width: 20px; /* Size of the SVG icon inside the button */
+            height: 20px;
+            fill: white; /* All icons will be white */
+        }
+
+
+        /* Countdown Timer Styles */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 2em;
+            color: #CCCCCC; /* CAMBIO: Color gris claro para el temporizador */
+            text-shadow: 0 0 10px rgba(204, 204, 204, 0.7); /* CAMBIO: Sombra ajustada al nuevo gris */
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        }
+
+        #countdown div {
+            padding: 10px 15px;
+            margin: 0 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(192, 192, 192, 0.4); /* CAMBIO: Sombra ajustada al nuevo gris/plateado */
+            min-width: 80px; /* Ensure a minimum width for consistent look */
+        }
+
+        #countdown .label {
+            display: block;
+            font-size: 0.4em;
+            color: #e0e0e0;
+            margin-top: 5px;
+            text-shadow: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+                padding: 15px;
+            }
+
+            .imagen-portada,
+            .galeria img {
+                width: 90%;
+                margin: 10px auto;
+            }
+
+            .floating-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8em;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .floating-button.contact {
+                right: 75px; /* Ajuste para que no se superpongan en móvil */
+                font-size: 1.2em;
+            }
+
+            #countdown {
+                font-size: 1.2em;
+                margin-top: 15px;
+            }
+
+            #countdown div {
+                padding: 8px 10px;
+                margin: 0 5px;
+                min-width: 60px;
+            }
+        }
+    </style>
+
+    <script>
+        // Translation object
+        const translations = {
+            es: {
+                pageTitle: "Mentorías Empresariales - Cuarzo",
+                metaDescription: "Mentorías personalizadas con proyectos listos para emprendedores. Reserva tu reunión.",
+                headerTitle: "¡Próximo lanzamiento del Proyecto Cuarzo!",
+                menuButton: "☰ Menú",
+                languageSelection: "Idioma",
+                menuHome: "Inicio",
+                menuGallery: "Galería de Proyectos",
+                menuBookMeeting: "Reservar Reunión",
+                menuContact: "Contacto",
+                projectEcommerce: "E-commerce Personalizado",
+                projectMarketing: "Marketing y Publicidad",
+                projectLogistics: "Logística y Distribución",
+                projectFranchises: "Modelos de Franquicias",
+                projectSaaS: "SaaS Empresarial",
+                aboutUs: "Quiénes Somos",
+                whatsappButtonTitle: "Escríbenos por WhatsApp",
+                contactButtonText: "📩 Contacto",
+                contactButtonTitle: "Formulario de contacto",
+                calendarTitle: "Reserva una reunión personalizada",
+                specificAreaQuestion: "¿Interesado en un área específica?",
+                bookEcommerce: "📦 Reserva para E-commerce",
+                bookMarketing: "📢 Reserva para Marketing",
+                bookLogistics: "🚚 Reserva para Logística",
+                bookFranchises: "🏪 Reserva para Franquicias",
+                bookSaaS: "💻 Reserva para SaaS",
+                footerText: "© 2025 Mentorías Cuarzo. Todos los derechos reservados.",
+                footerContact: "Contacto",
+                sectionAboutTitle: "Quiénes Somos",
+                sectionAboutContent: "En Cuarzo, transformamos ideas en negocios exitosos. Ofrecemos mentorías empresariales personalizadas, guiando a emprendedores y empresas hacia el crecimiento y la innovación. Nuestro enfoque práctico, con proyectos listos para implementar, te asegura resultados tangibles.",
+                sectionGalleryTitle: "Nuestros Proyectos",
+                sectionGalleryDescription: "Explora algunos de los proyectos exitosos que hemos impulsado con nuestros clientes. Desde tiendas en línea hasta complejos sistemas empresariales, nuestra experiencia abarca diversas industrias."
+            },
+            en: {
+                pageTitle: "Business Mentoring - Cuarzo",
+                metaDescription: "Personalized mentoring with ready-to-implement projects for entrepreneurs. Book your meeting.",
+                headerTitle: "Upcoming Launch of Project Cuarzo!",
+                menuButton: "☰ Menu",
+                languageSelection: "Language",
+                menuHome: "Home",
+                menuGallery: "Project Gallery",
+                menuBookMeeting: "Book a Meeting",
+                menuContact: "Contact",
+                projectEcommerce: "Custom E-commerce",
+                projectMarketing: "Marketing and Advertising",
+                projectLogistics: "Logistics and Distribution",
+                projectFranchises: "Franchise Models",
+                projectSaaS: "Enterprise SaaS",
+                aboutUs: "About Us",
+                whatsappButtonTitle: "Message us on WhatsApp",
+                contactButtonText: "📩 Contact",
+                contactButtonTitle: "Contact form",
+                calendarTitle: "Book a personalized meeting",
+                specificAreaQuestion: "Interested in a specific area?",
+                bookEcommerce: "📦 Book for E-commerce",
+                bookMarketing: "📢 Book for Marketing",
+                bookLogistics: "🚚 Book for Logistics",
+                bookFranchises: "🏪 Book for Franchises",
+                bookSaaS: "💻 Book for SaaS",
+                footerText: "© 2025 Cuarzo Mentoring. All rights reserved.",
+                footerContact: "Contact",
+                sectionAboutTitle: "About Us",
+                sectionAboutContent: "At Cuarzo, we transform ideas into successful businesses. We offer personalized business mentoring, guiding entrepreneurs and companies towards growth and innovation. Our practical approach, with ready-to-implement projects, ensures tangible results.",
+                sectionGalleryTitle: "Our Projects",
+                sectionGalleryDescription: "Explore some of the successful projects we've driven with our clients. From online stores to complex enterprise systems, our expertise spans various industries."
+            },
+            it: {
+                pageTitle: "Mentoring Aziendale - Cuarzo",
+                metaDescription: "Mentoring personalizzato con progetti pronti per imprenditori. Prenota la tua riunione.",
+                headerTitle: "Prossimo lancio del Progetto Cuarzo!",
+                menuButton: "☰ Menu",
+                languageSelection: "Lingua",
+                menuHome: "Inizio",
+                menuGallery: "Galleria Progetti",
+                menuBookMeeting: "Prenota una Riunione",
+                menuContact: "Contatto",
+                projectEcommerce: "E-commerce Personalizzato",
+                projectMarketing: "Marketing e Pubblicità",
+                projectLogistics: "Logistica e Distribuzione",
+                projectFranchises: "Modelli di Franchising",
+                projectSaaS: "SaaS Aziendale",
+                aboutUs: "Chi Siamo",
+                whatsappButtonTitle: "Scrivici su WhatsApp",
+                contactButtonText: "📩 Contatto",
+                contactButtonTitle: "Modulo di contatto",
+                calendarTitle: "Prenota una riunione personalizzata",
+                specificAreaQuestion: "Interessato a un'area specifica?",
+                bookEcommerce: "📦 Prenota per E-commerce",
+                bookMarketing: "📢 Prenota per Marketing",
+                bookLogistics: "🚚 Prenota per Logistica",
+                bookFranchises: "🏪 Prenota per Franchising",
+                bookSaaS: "💻 Prenota per SaaS",
+                footerText: "© 2025 Cuarzo Mentoring. Tutti i diritti riservati.",
+                footerContact: "Contatto",
+                sectionAboutTitle: "Chi Siamo",
+                sectionAboutContent: "In Cuarzo, trasformiamo idee in aziende di successo. Offriamo mentoring aziendale personalizzato, guidando imprenditori e aziende verso la crescita e l'innovazione. Il nostro approccio pratico, con progetti pronti per l'implementazione, ti garantisce risultati tangibili.",
+                sectionGalleryTitle: "I Nostri Progetti",
+                sectionGalleryDescription: "Esplora alcuni dei progetti di successo che abbiamo portato avanti con i nostri clienti. Dai negozi online ai complessi sistemi aziendali, la nostra esperienza copre diversi settori."
+            },
+            fr: {
+                pageTitle: "Mentorats d'Entreprise - Cuarzo",
+                metaDescription: "Mentorats personnalisés avec des projets prêts pour les entrepreneurs. Réservez votre réunion.",
+                headerTitle: "Prochain lancement du Projet Cuarzo !",
+                menuButton: "☰ Menu",
+                languageSelection: "Langue",
+                menuHome: "Accueil",
+                menuGallery: "Galerie de Projets",
+                menuBookMeeting: "Réserver une Réunion",
+                menuContact: "Contact",
+                projectEcommerce: "E-commerce Personnalisé",
+                projectMarketing: "Marketing et Publicité",
+                projectLogistics: "Logistique et Distribution",
+                projectFranchises: "Modèles de Franchises",
+                projectSaaS: "SaaS Entreprise",
+                aboutUs: "À Propos de Nous",
+                whatsappButtonTitle: "Envoyez-nous un message sur WhatsApp",
+                contactButtonText: "📩 Contact",
+                contactButtonTitle: "Formulaire de contact",
+                calendarTitle: "Réserver une réunion personnalisée",
+                specificAreaQuestion: "Intéressé par un domaine spécifique ?",
+                bookEcommerce: "📦 Réserver pour E-commerce",
+                bookMarketing: "📢 Réserver pour Marketing",
+                bookLogistics: "🚚 Réserver pour Logistique",
+                bookFranchises: "🏪 Réserver pour Franchises",
+                bookSaaS: "💻 Réserver pour SaaS",
+                footerText: "© 2025 Cuarzo Mentorat. Tous droits réservés.",
+                footerContact: "Contact",
+                sectionAboutTitle: "À Propos de Nous",
+                sectionAboutContent: "Chez Cuarzo, nous transformons les idées en entreprises prospères. Nous offrons un mentorat d'entreprise personnalisé, guidant les entrepreneurs et les entreprises vers la croissance et l'innovation. Notre approche pratique, avec des projets prêts à être mis en œuvre, vous garantit des résultats tangibles.",
+                sectionGalleryTitle: "Nos Projets",
+                sectionGalleryDescription: "Explorez certains des projets réussis que nous avons menés avec nos clients. Des boutiques en ligne aux systèmes d'entreprise complexes, notre expertise couvre diverses industries."
+            },
+            pt: {
+                pageTitle: "Mentorias Empresariais - Cuarzo",
+                metaDescription: "Mentorias personalizadas com projetos prontos para empreendedores. Reserve sua reunião.",
+                headerTitle: "Próximo lançamento do Projeto Cuarzo!",
+                menuButton: "☰ Menu",
+                languageSelection: "Idioma",
+                menuHome: "Início",
+                menuGallery: "Galeria de Projetos",
+                menuBookMeeting: "Agendar Reunião",
+                menuContact: "Contato",
+                projectEcommerce: "E-commerce Personalizado",
+                projectMarketing: "Marketing e Publicidade",
+                projectLogistics: "Logística e Distribuição",
+                projectFranchises: "Modelos de Franquias",
+                projectSaaS: "SaaS Empresarial",
+                aboutUs: "Quem Somos",
+                whatsappButtonTitle: "Envie-nos uma mensagem no WhatsApp",
+                contactButtonText: "📩 Contato",
+                contactButtonTitle: "Formulário de contato",
+                calendarTitle: "Agende uma reunião personalizada",
+                specificAreaQuestion: "Interessado em uma área específica?",
+                bookEcommerce: "📦 Agendar para E-commerce",
+                bookMarketing: "📢 Agendar para Marketing",
+                bookLogistics: "🚚 Agendar para Logística",
+                bookFranchises: "🏪 Agendar para Franquias",
+                bookSaaS: "💻 Agendar para SaaS",
+                footerText: "© 2025 Cuarzo Mentorias. Todos os direitos reservados.",
+                footerContact: "Contato",
+                sectionAboutTitle: "Quem Somos",
+                sectionAboutContent: "Na Cuarzo, transformamos ideias em negócios de sucesso. Oferecemos mentorias empresariais personalizadas, guiando empreendedores e empresas em direção ao crescimento e inovação. Nossa abordagem prática, com projetos prontos para implementar, garante resultados tangíveis.",
+                sectionGalleryTitle: "Nossos Projetos",
+                sectionGalleryDescription: "Explore alguns dos projetos de sucesso que impulsionamos com nossos clientes. De lojas online a sistemas empresariais complexos, nossa experiência abrange diversas indústrias."
+            }
+        };
+
+        // Function to toggle gallery visibility
+        function toggleGaleria() {
+            const galeria = document.getElementById("galeria");
+            galeria.style.display = galeria.style.display === "flex" ? "none" : "flex";
+        }
+
+        // Function to apply translations
+        function setLanguage(lang) {
+            document.documentElement.lang = lang; // Set the lang attribute of the html tag
+            localStorage.setItem('language', lang); // Save selected language to local storage
+
+            // Update text content and attributes based on data-key attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'META' && element.getAttribute('name') === 'description') {
+                        element.setAttribute('content', translations[lang][key]);
+                    } else if (element.tagName === 'TITLE') {
+                        element.textContent = translations[lang][key];
+                    } else if (element.hasAttribute('title') && (key === 'whatsappButtonTitle' || key === 'contactButtonTitle')) {
+                        element.setAttribute('title', translations[lang][key]);
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        // Global variable for music
+        let backgroundMusic;
+        let musicPlaying = false; // Track if music is currently playing
+
+        // Function to play music
+        function playMusic() {
+            if (backgroundMusic && backgroundMusic.paused) {
+                backgroundMusic.play().then(() => {
+                    musicPlaying = true;
+                    console.log('Música iniciada.');
+                }).catch(error => {
+                    console.warn('Reproducción automática de música bloqueada. Haz clic en la página para iniciarla.', error);
+                    // Puedes mostrar un mensaje al usuario para que haga clic si es bloqueado
+                });
+            }
+        }
+
+        // Function to pause music
+        function pauseMusic() {
+            if (backgroundMusic && !backgroundMusic.paused) {
+                backgroundMusic.pause();
+                musicPlaying = false;
+                console.log('Música pausada.');
+            }
+        }
+
+        // Countdown Logic
+        function setupCountdown() {
+            // Set the launch date for Proyecto Cuarzo
+            // For example, December 31, 2025, 23:59:59
+            const launchDate = new Date("December 31, 2025 23:59:59").getTime();
+
+            const countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = launchDate - now;
+
+                // Calculate time units
+                const years = Math.floor(distance / (1000 * 60 * 60 * 24 * 365.25));
+                const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the corresponding elements
+                document.getElementById("years").innerHTML = years < 10 ? "0" + years : years;
+                document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+                // For months, we need a bit more logic because of varying days per month
+                // This is an approximation and might not be perfectly precise for months.
+                // For exact month calculation, you'd need a more complex date library or logic.
+                const totalMonths = Math.floor(distance / (1000 * 60 * 60 * 24 * 30.4375)); // Average days in a month
+                document.getElementById("months").innerHTML = totalMonths % 12 < 10 ? "0" + (totalMonths % 12) : (totalMonths % 12);
+
+
+                // If the countdown is over, write some text
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById("countdown").innerHTML = "¡PROYECTO CUARZO LANZADO!";
+                    document.querySelector('header h1').textContent = "¡Proyecto Cuarzo Lanzado!";
+                }
+            }, 1000);
+        }
+
+
+        // DOM Content Loaded Event Listener
+        document.addEventListener("DOMContentLoaded", () => {
+            backgroundMusic = document.getElementById('backgroundMusic');
+
+            // Set initial language from local storage or default to Spanish
+            const savedLanguage = localStorage.getItem('language') || 'es';
+            setLanguage(savedLanguage);
+
+            // Double click fullscreen for images, without stretching
+            document.querySelectorAll('.galeria img, .imagen-portada').forEach(img => {
+                img.addEventListener('dblclick', () => {
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        if (img.requestFullscreen) {
+                            img.requestFullscreen();
+                        } else if (img.webkitRequestFullscreen) { /* Safari */
+                            img.webkitRequestFullscreen();
+                        } else if (img.msRequestFullscreen) { /* IE11 */
+                            img.msRequestFullscreen();
+                        }
+                    }
+                });
+            });
+
+            // Event listener for language selection
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+                    const selectedLang = event.target.getAttribute('data-lang');
+                    setLanguage(selectedLang);
+                });
+            });
+
+            // Populate gallery if needed (example, you might fetch these dynamically)
+            const galleryContainer = document.getElementById('galeria');
+            const projectImages = [
+                "screenshots/Picture1.jpg",
+                "screenshots/Picture2.jpg",
+                "screenshots/Picture4.jpg",
+                "screenshots/Picture5.jpg",
+                "screenshots/placeholder.jpg" // Added a placeholder to complete the array
+            ];
+
+            projectImages.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = "Proyecto Cuarzo";
+                img.loading = "lazy";
+                galleryContainer.appendChild(img);
+            });
+
+            // Re-attach double click event listeners for newly added gallery images
+            document.querySelectorAll('.galeria img').forEach(img => {
+                img.addEventListener('dblclick', () => {
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        if (img.requestFullscreen) {
+                            img.requestFullscreen();
+                        } else if (img.webkitRequestFullscreen) { /* Safari */
+                            img.webkitRequestFullscreen();
+                        } else if (img.msRequestFullscreen) { /* IE11 */
+                            img.msRequestFullscreen();
+                        }
+                    }
+                });
+            });
+
+            // Play music on first user interaction
+            document.body.addEventListener('click', () => {
+                playMusic();
+            }, { once: true }); // Only run once
+
+            setupCountdown(); // Initialize the countdown
+        });
+    </script>
+</head>
+<body>
+    <div class="menu-desplegable">
+        <button class="menu-btn" data-key="menuButton">☰ Menú</button>
+        <div class="menu-contenido">
+            <a href="#inicio" data-key="menuHome">Inicio</a>
+            <a href="#" onclick="toggleGaleria()" data-key="menuGallery">Galería de Proyectos</a>
+            <a href="#calendario" data-key="menuBookMeeting">Reservar Reunión</a>
+            <a href="contacto.html" data-key="menuContact">Contacto</a>
+        </div>
+    </div>
+
+    <div class="idioma-menu-desplegable">
+        <button class="menu-btn" data-key="languageSelection">Idioma</button>
+        <div class="menu-contenido">
+            <a href="#" class="lang-option" data-lang="es">Español</a>
+            <a href="#" class="lang-option" data-lang="en">English</a>
+            <a href="#" class="lang-option" data-lang="it">Italiano</a>
+            <a href="#" class="lang-option" data-lang="fr">Français</a>
+            <a href="#" class="lang-option" data-lang="pt">Português</a>
+        </div>
+    </div>
+
+    <header id="inicio">
+        <img src="logo.png" alt="Cuarzo Logo">
+        <h1 data-key="headerTitle">¡Próximo lanzamiento del Proyecto Cuarzo!</h1>
+        <div id="countdown">
+            <div><span id="years"></span><span class="label">Años</span></div>
+            <div><span id="months"></span><span class="label">Meses</span></div>
+            <div><span id="days"></span><span class="label">Días</span></div>
+            <div><span id="hours"></span><span class="label">Horas</span></div>
+            <div><span id="minutes"></span><span class="label">Minutos</span></div>
+            <div><span id="seconds"></span><span class="label">Segundos</span></div>
+        </div>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2 data-key="sectionAboutTitle">Quiénes Somos</h2>
+            <p data-key="sectionAboutContent">En Cuarzo, transformamos ideas en negocios exitosos. Ofrecemos mentorías empresariales personalizadas, guiando a emprendedores y empresas hacia el crecimiento y la innovación. Nuestro enfoque práctico, con proyectos listos para implementar, te asegura resultados tangibles.</p>
+        </section>
+
+        <section>
+            <h2 data-key="sectionGalleryTitle">Nuestros Proyectos</h2>
+            <p data-key="sectionGalleryDescription">Explora algunos de los proyectos exitosos que hemos impulsado con nuestros clientes. Desde tiendas en línea hasta complejos sistemas empresariales, nuestra experiencia abarca diversas industrias.</p>
+            <img src="screenshots/Picture3.jpg" alt="Imagen de portada" class="imagen-portada">
+            <div id="galeria" class="galeria">
+                </div>
+        </section>
+
+        <section id="calendario">
+            <div class="meeting-box">
+                <h3 data-key="calendarTitle">Reserva una reunión personalizada</h3>
+                <p data-key="specificAreaQuestion">¿Interesado en un área específica?</p>
+                <ul>
+                    <li><a href="https://calendly.com/cuarzocristialempresarial/e-commerce" target="_blank" class="button" data-key="bookEcommerce">📦 Reserva para E-commerce</a></li>
+                    <li><a href="https://calendly.com/cuarzocristialempresarial/marketing" target="_blank" class="button" data-key="bookMarketing">📢 Reserva para Marketing</a></li>
+                    <li><a href="https://calendly.com/cuarzocristialempresarial/logistics" target="_blank" class="button" data-key="bookLogistics">🚚 Reserva para Logística</a></li>
+                    <li><a href="https://calendly.com/cuarzocristialempresarial/franchises" target="_blank" class="button" data-key="bookFranchises">🏪 Reserva para Franquicias</a></li>
+                    <li><a href="https://calendly.com/cuarzocristialempresarial/saas" target="_blank" class="button" data-key="bookSaaS">💻 Reserva para SaaS</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <a href="https://wa.me/541139090010" class="floating-button whatsapp" target="_blank" title="Escríbenos por WhatsApp" data-key="whatsappButtonTitle">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12.04 2c-5.45 0-9.91 4.46-9.91 9.91 0 1.75.5 3.44 1.46 4.96L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.92-4.46 9.92-9.91s-4.46-9.91-9.92-9.91zm.04 18.12c-1.48 0-2.93-.4-4.2-1.16l-.3-.18-3.1 1.02 1.05-3.05-.2-.31c-.86-1.34-1.32-2.88-1.32-4.48 0-4.32 3.5-7.82 7.82-7.82 2.1 0 4.07.82 5.57 2.32 1.5 1.5 2.32 3.47 2.32 5.57s-.82 4.07-2.32 5.57c-1.5 1.5-3.47 2.32-5.57 2.32zm3.62-6.89c-.19-.1-.6-.29-.83-.38-.2-.1-.4-.1-.57.1-.19.2-.74.92-.91 1.1-.19.2-.36.22-.66.08-.3-.15-1.26-.47-2.4-1.48-.88-.79-1.47-1.76-1.64-2.05-.16-.29 0-.45.15-.6a.65.65 0 01.44-.33c.1-.03.22-.05.33-.12.11-.06.24-.15.35-.29.11-.14.16-.25.25-.41.09-.16.05-.3-.02-.42-.07-.12-.57-1.36-.78-1.86-.2-.48-.4-.42-.57-.43-.17-.01-.37-.01-.57-.01-.2 0-.5.07-.76.33-.27.26-1.04 1.01-1.04 2.47 0 1.46 1.07 2.87 1.23 3.07.16.2.29.32.55.65.2.25.4.45.66.58.3.15.6.23.9.29.3.06.87.35 1.76.74 1.08.47 1.9.77 2.22.92.32.15.55.13.75.08.23-.05.6-.25 1.04-.68.44-.43.43-.8.3-1.03-.12-.22-.45-.34-.65-.45z"/>
+        </svg>
+    </a>
+
+    <a href="mailto:cuarzocristialempresarial@gmail.com" class="floating-button contact" title="Formulario de contacto" data-key="contactButtonTitle">
+        <span data-key="contactButtonText">📩 Contacto</span>
+    </a>
+
+    <footer>
+        <p data-key="footerText">© 2025 Mentorías Cuarzo. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/yourprofile" target="_blank" aria-label="Facebook" class="facebook">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V14.8H7.2V12H10V9.8c0-2.7 1.67-4.18 4.05-4.18.76 0 1.53.15 1.53.15v2.79h-1.42c-1.39 0-1.8.86-1.8 1.74V12h3.1l-.5 2.8h-2.6V21.8C18.56 20.87 22 16.84 22 12z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/yourprofile" target="_blank" aria-label="Instagram" class="instagram">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.071 1.17.055 1.805.249 2.227.427.601.242 1.056.578 1.52.883a4.992 4.992 0 01.883 1.52c.178.422.372 1.057.427 2.227.059 1.266.071 1.646.071 4.85s-.012 3.584-.071 4.85c-.055 1.17-.249 1.805-.427 2.227a4.992 4.992 0 01-.883 1.52c-.305.464-.578.919-.883 1.52-.422.178-1.057.372-2.227.427-1.266.059-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.17-.055-1.805-.249-2.227-.427a4.992 4.992 0 01-1.52-.883c-.464-.305-.919-.578-.883-1.52-.178-.422-.372-1.057-.427-2.227-.059-1.266-.071-1.646-.071-4.85s.012-3.584.071-4.85c.055-1.17.249-1.805.427-2.227a4.992 4.992 0 01.883-1.52c.305-.464.578-.919.883-1.52.422-.178 1.057-.372 2.227-.427C8.416 2.175 8.796 2.163 12 2.163zm0 3.498c-3.594 0-3.957.013-5.187.072-1.05.049-1.565.233-1.896.368a2.993 2.993 0 00-1.292.748 2.993 2.993 0 00-.748 1.292c-.135.331-.319.846-.368 1.896-.059 1.23-.072 1.593-.072 5.187s.013 3.957.072 5.187c.049 1.05.233 1.565.368 1.896a2.993 2.993 0 00.748 1.292 2.993 2.993 0 001.292.748c.331.135.846.319 1.896.368 1.23.059 1.593.072 5.187.072s3.957-.013 5.187-.072c1.05-.049 1.565-.233 1.896-.368a2.993 2.993 0 001.292-.748 2.993 2.993 0 00.748-1.292c.135-.331.319-.846.368-1.896.059-1.23.072-1.593.072-5.187s-.013-3.957-.072-5.187c-.049-1.05-.233-1.565-.368-1.896a2.993 2.993 0 00-.748-1.292 2.993 2.993 0 00-1.292-.748c-.331-.135-.846-.319-1.896-.368-1.23-.059-1.593-.072-5.187-.072zm0 4.301a4.301 4.301 0 100 8.602 4.301 4.301 0 000-8.602zm0 1.599a2.702 2.702 0 110 5.404 2.702 2.702 0 010-5.404zM18.423 7.869a1.016 1.016 0 110 2.032 1.016 1.016 0 010-2.032z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/yourcompany" target="_blank" aria-label="LinkedIn" class="linkedin">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22.23 0H1.77C.79 0 0 .77 0 1.77v20.46C0 23.23.77 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.77V1.77C24 .77 23.23 0 22.23 0zM7.06 20.41H3.64V9H7.06v11.41zM5.35 7.63a2.03 2.03 0 11-.03-4.06 2.03 2.03 0 01.03 4.06zm15.06 12.78h-3.42V14.1c0-1.3-.47-2.19-1.63-2.19-1.22 0-1.95.82-1.95 2.15v6.45H9.64V9h3.42v1.5c.45-.69 1.25-1.68 3.09-1.68 2.25 0 3.94 1.47 3.94 4.62v6.97z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+</body>
+</html>
