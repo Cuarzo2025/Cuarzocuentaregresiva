@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Gracias por tu mensaje! - Cuarzo Cristal Empresarial</title>
+    <style>
+        body {
+            background-color: black; /* Color de fallback si la imagen no carga */
+            color: silver;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center; /* Centra el contenido verticalmente */
+            align-items: center; /* Centra el contenido horizontalmente */
+            text-align: center; /* Asegura que el texto también se centre */
+            
+            /* --- CONFIGURACIÓN DE LA IMAGEN DE FONDO --- */
+            background-image: url('screenshots/Picture48.jpg'); /* ¡Asegúrate de que la ruta sea correcta! */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            filter: grayscale(100%); /* Inicia en blanco y negro */
+            transition: filter 0.8s ease-in-out;
+        }
+
+        body:hover {
+            filter: grayscale(0%); /* A color al pasar el ratón */
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 600px;
+            background-color: rgba(34, 34, 34, 0.9); /* Fondo semi-transparente */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+            color: #ccc;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 25px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: rgba(51, 51, 51, 0.8);
+            color: silver;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; /* Empuja el footer hacia abajo */
+            width: 100%; /* Asegura que el footer ocupe todo el ancho */
+            position: absolute; /* Para que quede abajo si el contenido es corto */
+            bottom: 0; /* Lo fija al fondo */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>¡Mensaje Enviado con Éxito!</h1>
+        <p>Gracias por contactarnos. Hemos recibido tu mensaje y nos pondremos en contacto contigo a la brevedad posible.</p>
+        <p>Apreciamos tu interés en Cuarzo Cristal Empresarial.</p>
+        <a href="index.html" class="button">Volver a la página de inicio</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Cuarzo Cristal Empresarial. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
